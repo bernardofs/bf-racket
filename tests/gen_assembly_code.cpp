@@ -1,22 +1,11 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
 
 using namespace std;
 
-#define INF (1ll << 62)
-#define pb push_back
-#define ii pair<int,int>
-#define OK cerr <<"OK"<< endl
-#define debug(x) cerr << #x " = " << (x) << endl
-#define ff first
-#define ss second
-#define int long long
-#define tt tuple<int, int, int>
-#define endl '\n'
-
-signed main () {
-  
-  ios_base::sync_with_stdio(false);
-  cin.tie(NULL);
+int main () {
 
   string s;
 
@@ -27,7 +16,7 @@ signed main () {
       s.erase(s.begin() + i);
   }
 
-  s.pb('#');
+  s.push_back('#');
   int cnt = 1;
   char last = s[0];
   vector<pair<int, char> > ans;
@@ -36,7 +25,7 @@ signed main () {
     if(last == c) 
       cnt++;
     else {
-      ans.pb(ii(cnt, last));
+      ans.push_back(pair<int, char>(cnt, last));
       cnt = 1;
     }
 
@@ -57,11 +46,11 @@ signed main () {
   m2[']'] = "end";
 
   for(pair<int, char> x: ans) {
-    if(m.count(x.ss)) {
-      cout << m[x.ss] << (x.ff > 1 ? (" " + to_string(x.ff)) : "") << endl;
+    if(m.count(x.second)) {
+      cout << m[x.second] << (x.first > 1 ? (" " + to_string(x.first)) : "") << endl;
     } else {
-      while(x.ff--) {
-        cout << m2[x.ss] << endl;
+      while(x.first--) {
+        cout << m2[x.second] << endl;
       }
     }
   }
