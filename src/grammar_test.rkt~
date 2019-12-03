@@ -1,0 +1,7 @@
+#lang br
+(require "grammar.rkt" "reader.rkt")
+(require brag/support)
+(parse-to-datum (apply-tokenizer make-tokenizer "inc
+dec
+inc
+"))
