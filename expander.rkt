@@ -12,6 +12,11 @@
             ([bf-func (in-list bf-funcs)])
     (apply bf-func current-apl)))
 
+;; apply-n-times
+(define (apply-n-times apl n func)
+  (for/fold ([current-apl apl]) ([i n])
+    (apply func current-apl)))
+
 ;; bf-program
 (define-macro (bf-program OP-OR-LOOP-ARG ...)
   #'(begin
@@ -36,13 +41,13 @@
 ;; bf-op
 (define-macro-cases bf-op
   [(bf-op (bf-fwd "fwd")) #'gt]
-  [(bf-op (bf-inc "fwd" (number N))) #'(for ([i N]) (gt))]
+  [(bf-op (bf-inc "fwd" (number N))) #'(lambda (arr ptr) (apply-n-times (list arr ptr) N gt))]
   [(bf-op (bf-rwd "rwd")) #'lt]
-  [(bf-op (bf-inc "rwd" (number N))) #'(for ([i N]) (lt))]
+  [(bf-op (bf-inc "rwd" (number N))) #'(lambda (arr ptr) (apply-n-times (list arr ptr) N lt))]
   [(bf-op (bf-inc "inc")) #'plus]
-  [(bf-op (bf-inc "inc" (number N))) #'(lambda (arr ptr) ((for/fold ([current-apl (list arr ptr)]) ([i N]) (plus arr ptr))))]
+  [(bf-op (bf-inc "inc" (number N))) #'(lambda (arr ptr) (apply-n-times (list arr ptr) N plus))]
   [(bf-op (bf-dec "dec")) #'minus]
-  [(bf-op (bf-inc "dec" (number N))) #'(for ([i N]) (minus))]
+  [(bf-op (bf-inc "dec" (number N))) #'(lambda (arr ptr) (apply-n-times (list arr ptr) N minus))]
   [(bf-op "write") #'period]
   [(bf-op "read") #'comma])
 
