@@ -3,7 +3,7 @@ An assembly bf simulator in racket
 
 ## Install
 
-Install it by typing at the bf directory `raco pkg install`. This will generate a bf lib.
+Install it by typing at the `bf` directory `raco pkg install`. This will generate a bf lib.
 
 ## Test
 
